@@ -5,7 +5,8 @@ define_property(
   FULL_DOCS
     "This property is used to store the install dir for this install test")
 
-set(InstallTestPrefix InstallTest)
+
+set(InstallTestPrefix InstallTest CACHE STRING "Prefix for install tests")
 
 #[[
   This function adds a test that will build and install the project specified by SOURCE_DIR.
@@ -102,7 +103,7 @@ function(test_subdirectory)
   endforeach()
   set(build_dir ${CMAKE_CURRENT_BINARY_DIR}/${arg_NAME}.link_install-build)
   add_test(
-    NAME ${arg_NAME}.link_install
+    NAME ${arg_NAME}
     COMMAND
       ${CMAKE_CTEST_COMMAND} --build-and-test #
       ${arg_SOURCE_DIR} # user provided source directory of this build
@@ -113,7 +114,7 @@ function(test_subdirectory)
       --test-command ${CMAKE_CTEST_COMMAND})
   foreach(install_name IN LISTS arg_INSTALL_NAMES)
     set(test_name ${InstallTestPrefix}.${install_name})
-    set_tests_properties(${arg_NAME}.link_install
+    set_tests_properties(${arg_NAME}
                          PROPERTIES FIXTURES_REQUIRED ${test_name}.fixture)
   endforeach()
 endfunction()
